@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { ContactService } from './contact.service';
+import { IContacts } from './contactListInterface';
 
 @Component({
   selector: 'page-contact',
@@ -8,13 +9,17 @@ import { ContactService } from './contact.service';
 })
 export class ContactPage {
 
-  contactList: any[];
+  contactList: IContacts[];
+  errorMsg : string;
+
   constructor(private _contactService : ContactService) {
-    // this.contactList = this._contactService.getContactList();
+    // this.contactList = this._contactService.getContactList(); 
   }
 
   ngOnInit() : void {
-    this.contactList = this._contactService.getContactList();
+    this._contactService.getContactList()
+          .subscribe(contactList => this.contactList = contactList,
+          error => this.errorMsg = <any>error);
   }
 
 }

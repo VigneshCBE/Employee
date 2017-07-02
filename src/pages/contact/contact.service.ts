@@ -1,53 +1,31 @@
 import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/catch';
+
+import { IContacts } from './contactListInterface';
 
 @Injectable()
 export class ContactService {
 
-    getContactList(): any[] {
-        return [
-      {
-        "empDesignation" : "Project Manager",
-        "empEducation" : "B.Sc",
-        "empExperience" : "5 Years",
-        "empName" : "Contact1",
-        "empid" : "contact1"
-      }, 
-      {
-        "empDesignation" : "Senior Project Engineer",
-        "empEducation" : "B.E",
-        "empExperience" : "6 Years",
-        "empName" : "Contact2",
-        "empid" : "contact2"
-      }, 
-      {
-        "empDesignation" : "Project Engineer",
-        "empEducation" : "B.E",
-        "empExperience" : "7 Years",
-        "empName" : "Contact3",
-        "empid" : "contact3"
-      }, 
-      {
-        "empDesignation" : "Engineer",
-        "empEducation" : "B.E",
-        "empExperience" : "1 Years",
-        "empName" : "Contact4",
-        "empid" : "contact4"
-      }, 
-      {
-        "empDesignation" : "Engineer",
-        "empEducation" : "B.Sc",
-        "empExperience" : "2 Years",
-        "empName" : "Contact5",
-        "empid" : "contact5"
-      }, 
-      {
-        "empDesignation" : "Project Manager",
-        "empEducation" : "M.E",
-        "empExperience" : "10 Years",
-        "empName" : "Contact6",
-        "empid" : "contact6"
-      }
-        ];
+   private _contactsUrl = "http://demo0790365.mockable.io/employee/employeeList";
+
+   constructor(private _http : Http) {
+
+   }
+
+    getContactList(): Observable<IContacts[]> {
+        return this._http.get(this._contactsUrl)
+                .map((response : Response) => <IContacts[]> response.json())
+                .do(data => console.log('All: ' + JSON.stringify(data)))
+                .catch(this.handleError);
+    }
+
+    private handleError(error : Response) {
+        console.error(error);
+        return Observable.throw(error.json().error || 'server error');
     }
 
 }
