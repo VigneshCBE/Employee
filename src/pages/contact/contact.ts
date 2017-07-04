@@ -11,15 +11,21 @@ export class ContactPage {
 
   contactList: IContacts[];
   errorMsg : string;
+  addCont : IContacts[];
 
   constructor(private _contactService : ContactService) {
     // this.contactList = this._contactService.getContactList(); 
   }
 
+ getThisContact(empid : string) {
+    this._contactService.getThissContact(empid)
+                        .then(contactList => this.contactList = contactList);
+ }
+
+
   ngOnInit() : void {
     this._contactService.getContactList()
-          .subscribe(contactList => this.contactList = contactList,
-          error => this.errorMsg = <any>error);
+                        .then(contactList => this.contactList = contactList);
   }
 
 }
