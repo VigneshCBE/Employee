@@ -6,13 +6,11 @@
   </ion-navbar>
 </ion-header>
 
-
-
 <ion-content>
   <ion-list>
     <ion-list-header>Follow us on Twitter</ion-list-header>
-    <ion-item *ngFor = 'let contact of contactList' (click) = "getThisContact(contact.empid)" >
-        {{contact.empid}}
+    <ion-item *ngFor = 'let contact of contactList'>
+        {{contact.empName}}
     </ion-item>
   </ion-list>
 </ion-content>
